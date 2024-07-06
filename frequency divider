@@ -1,0 +1,8 @@
+module fd(
+input clk,
+output reg [2:0] fout);
+    initial 
+    fout=3'b000;
+    always@(posedge clk)
+    fout<=fout+1'b0;
+endmodule
