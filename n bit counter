@@ -1,0 +1,18 @@
+module n_bit_counters(x,clk,ud,clr,q,y );
+input x,clk,ud,clr;
+parameter n=4;
+output reg [n-1:0] q;
+output reg y;
+  always@(posedge clk or posedge clr) begin
+  if (clr==1)
+  begin
+    q<=0;
+    y<=0;
+    end
+    else
+    if (x==1)
+    if(ud==1){y,q}<=q+1'b1;
+    else
+    {y,q}<=q-1'b1;
+    end
+endmodule
