@@ -1,0 +1,16 @@
+module two_bit_async_counter (
+  input x, clk,
+  output reg [1:0] q,
+  output reg y);
+  initial
+  begin
+    q = 2'b00;
+    y = 1'b0;
+  end
+  always @(negedge clk)
+    if (x == 1)
+      q[0] <= q[0] + 1'b1;
+  always @(negedge q[0])
+    if (x == 1)
+      {y, q[1]} <= q[1] + 1'b1;
+endmodule
