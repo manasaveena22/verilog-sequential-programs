@@ -1,0 +1,13 @@
+module T_flip_flop (
+    input wire T, clk,  rst,  
+    output reg Q     // Output
+);
+
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        Q <= 1'b0;  // Reset output to 0
+    else if (T)
+        Q <= ~Q;    // Toggle output on clock edge if T is high
+end
+
+endmodule
