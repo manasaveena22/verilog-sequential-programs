@@ -1,0 +1,15 @@
+module PIPO_shift_register (
+  input [7:0] number,
+  input [1:0] p2,//power of 2//
+  input md, clk,
+  output reg [7:0] result,
+  output reg ovr//overflow//
+);
+  always @(posedge clk)
+  begin
+    if (md == 1'b1)
+      {ovr, result} <= number << p2;
+    else
+      result <= number >> p2;
+  end
+endmodule
