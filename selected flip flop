@@ -1,0 +1,67 @@
+module selectable_flip_flop (
+  input wire clk,reset,enable,
+  input wire [1:0] flop_type, // 2-bit selection signal
+  input wire x,y
+  
+);
+ reg q;
+  // D Flip-Flop
+  reg d_q;
+  always @(posedge clk or posedge reset) begin
+    if (reset)
+      d_q <= 1'b0;
+    else if (enable && flop_type == 2'b00)
+      d_q <= x;
+  end
+
+  // JK Flip-Flop
+  reg jk_q;
+  always @(posedge clk or posedge reset) begin
+    if (reset)
+      jk_q <= 1'b0;
+    else if (enable && flop_type == 2'b01) begin
+      case ({x, y})
+        2'b00: jk_q <= jk_q; // No change
+        2'b01: jk_q <= 1'b0;  // Reset
+        2'b10: jk_q <= 1'b1;  // Set
+        2'b11: jk_q <= ~jk_q; // Toggle
+      endcase
+    end
+  end
+
+  // T Flip-Flop
+  reg t_q;
+  always @(posedge clk or posedge reset) begin
+    if (reset)
+      t_q <= 1'b0;
+    else if (enable && flop_type == 2'b10)
+      t_q <= (x) ? ~t_q : t_q;
+  end
+
+  // SR Flip-Flop
+  reg sr_q;
+  always @(posedge clk or posedge reset) begin
+    if (reset)
+      sr_q <= 1'b0;
+    else if (enable && flop_type == 2'b11) begin
+      case ({x, y})
+        2'b00: sr_q <= sr_q; // No change
+        2'b01: sr_q <= 1'b0;  // Reset
+        2'b10: sr_q <= 1'b1;  // Set
+        2'b11: sr_q <= 1'bX;  // Undefined state, you might want to handle this case
+      endcase
+    end
+  end
+
+  // Output selection based on flop_type
+  always @* begin
+    case (flop_type)
+      2'b00: q = d_q;
+      2'b01: q = jk_q;
+      2'b10: q = t_q;
+      2'b11: q = sr_q;
+      default: q = 1'b0; // Default to 0 if invalid selection
+    endcase
+  end
+
+endmodule
