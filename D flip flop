@@ -1,0 +1,13 @@
+module D_flip_flop (
+    input wire D,  clk,  rst,  // Asynchronous reset
+    output reg Q     // Output
+);
+
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        Q <= 1'b0;  // Reset output to 0
+    else
+        Q <= D;     // Assign input to output on clock edge
+end
+
+endmodule
