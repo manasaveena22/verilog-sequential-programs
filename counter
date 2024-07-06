@@ -1,0 +1,11 @@
+module two_bit_counters(
+input x,clk,
+output reg [1:0] q,
+output reg y );
+    initial begin
+    q=2'b00;
+    y=1'b0;
+    end
+    always@(posedge clk)
+    if(x==1){y,q}<=q+1'b1;
+endmodule
